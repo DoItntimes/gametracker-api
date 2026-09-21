@@ -3,6 +3,7 @@ const {
   validateScore,
   validatePrice,
   validateString,
+  validateNewGame
 } = require("../validators/games.validators");
 async function getGames(req, res) {
   const games = await getGamesCollection();
@@ -85,61 +86,10 @@ async function createGame(req, res) {
   const games = await getGamesCollection();
   const newGame = req.body;
 
-  if (!newGame.title) {
-    return res.status(400).json({
-      message: "El titulo es obligatorio",
-    });
-  }
-
-  const errorTitle = validateString(newGame.title, "title");
-  if (errorTitle) {
-    return res.status(400).json({
-      message: errorTitle,
-    });
-  }
-
-  if (!newGame.genre) {
-    return res.status(400).json({
-      message: "El genero es obligatorio",
-    });
-  }
-
-  const errorGenre = validateString(newGame.genre, "genre");
-  if (errorGenre) {
-    return res.status(400).json({
-      message: errorGenre,
-    });
-  }
-
-  if (!newGame.platform) {
-    return res.status(400).json({
-      message: "La plataforma es obligatoria",
-    });
-  }
-
-  const errorPlatform = validateString(newGame.platform, "platform");
-  if (errorPlatform) {
-    return res.status(400).json({
-      message: errorPlatform,
-    });
-  }
-
-  if (newGame.score === undefined) {
-    return res.status(400).json({ message: "Score es obligatorio" });
-  }
-
-  const errorScore = validateScore(newGame.score);
-  if (errorScore) {
-    return res.status(400).json({ message: errorScore });
-  }
-
-  if (newGame.price === undefined) {
-    return res.status(400).json({ message: "Price es obligatorio" });
-  }
-
-  const errorPrice = validatePrice(newGame.price);
-  if (errorPrice) {
-    return res.status(400).json({ message: errorPrice });
+  
+  const errorCreate = validateNewGame(newGame);
+  if(errorCreate){
+    return res.status(400).json({message:errorCreate});
   }
 
   await games.insertOne(newGame);

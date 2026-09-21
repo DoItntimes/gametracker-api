@@ -11,6 +11,12 @@ app.use("/games", gamesRouter);
 
 const PORT = 3000;
 
+app.get("/test", (req, res) => {
+  res.json({
+    message: "Express funciona correctamente",
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor funcionando en puerto ${PORT}`);
 });
