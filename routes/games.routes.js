@@ -1,5 +1,8 @@
 const express = require("express");
 const {
+  validateCreateGame,
+} = require("../middlewares/validateGame.middleware");
+const {
   getGames,
   getGamesByTitle,
   createGame,
@@ -10,7 +13,7 @@ const router = express.Router();
 
 router.get("/", getGames);
 router.get("/:title", getGamesByTitle);
-router.post("/", createGame);
+router.post("/", validateCreateGame, createGame);
 router.patch("/:title", updateGame);
 router.delete("/:title", deleteGame);
 

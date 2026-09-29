@@ -3,7 +3,7 @@ const {
   validateScore,
   validatePrice,
   validateString,
-  validateNewGame
+  validateNewGame,
 } = require("../validators/games.validators");
 async function getGames(req, res) {
   const games = await getGamesCollection();
@@ -81,16 +81,10 @@ async function getGamesByTitle(req, res) {
   }
   res.json(resultado);
 }
-
+//la validacion ya ocurre en el middleware validateGame
 async function createGame(req, res) {
   const games = await getGamesCollection();
   const newGame = req.body;
-
-  
-  const errorCreate = validateNewGame(newGame);
-  if(errorCreate){
-    return res.status(400).json({message:errorCreate});
-  }
 
   await games.insertOne(newGame);
 
